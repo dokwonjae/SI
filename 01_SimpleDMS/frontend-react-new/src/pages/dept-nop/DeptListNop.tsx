@@ -22,7 +22,7 @@ function DeptListNop() {
   }, []);
 
   // todo: 검색어 수동 바인딩 함수
-  const onChangeSearchDname = (e: any) => {
+  const onChangeSearchDname = (e: React.ChangeEvent<HTMLInputElement>) => {
     // todo: event.target : input 태그에 현재 걸린 이벤트
     //  => e.target.value : 현재 조작하는 태그의 value 값
     setSearchDname(e.target.value);

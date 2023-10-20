@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : com.example.simpledms.service
@@ -37,6 +38,30 @@ public class DeptService {
         List<Dept> list = deptRepository.findAllByDnameContaining(dname);
 
         return list;
+    }
+
+    /** 저장함수(dno:null) + 수정함수(dno:값이 있으면) */
+    public Dept save(Dept dept) {
+        Dept dept2 = deptRepository.save(dept);
+
+        return dept2;
+    }
+
+    /** 상세조회(1건조회) */
+    public Optional<Dept> findById(int dno) {
+        Optional<Dept> optionalDept = deptRepository.findById(dno);
+
+        return optionalDept;
+    }
+
+    /** 삭제함수 */
+    public boolean removeById(int dno) {
+
+        if(deptRepository.existsById(dno)) {
+            deptRepository.deleteById(dno);
+            return true;
+        }
+        return false;
     }
 }
 

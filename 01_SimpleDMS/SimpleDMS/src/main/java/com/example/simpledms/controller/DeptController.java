@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName : com.example.simpledms.controller
@@ -58,4 +56,76 @@ public class DeptController {
         }
     }
 
+    /** 저장함수 */
+    @PostMapping("/dept")
+    public ResponseEntity<Object> createDept(
+            @RequestBody Dept dept){
+        try {
+//            저장함수 호출
+            Dept dept2 = deptService.save(dept);
+
+            return new ResponseEntity<>(dept2, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /** 상세 조회 */
+    @GetMapping("/dept/{dno}")
+    public ResponseEntity<Object> getDeptId(
+            @PathVariable int dno){
+        try {
+//            상세 조회
+            Optional<Dept> optionalDept = deptService.findById(dno);
+
+            if (optionalDept.isEmpty() == false) {
+//                성공
+                return new ResponseEntity<>(optionalDept.get(), HttpStatus.OK);
+            } else {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /** 수정함수 */
+    @PutMapping("/dept/{dno}")
+    public ResponseEntity<Object> updateDept(
+            @PathVariable int dno,
+            @RequestBody Dept dept){
+        try {
+//            저장(수정)함수 호출
+            Dept dept2 = deptService.save(dept);
+
+            return new ResponseEntity<>(dept2, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /** 삭제함수 */
+    @DeleteMapping("/dept/deletion/{dno}")
+    public ResponseEntity<Object> deleteDept(
+            @PathVariable int dno){
+        try {
+//          삭제함수 호출
+            boolean bSuccess = deptService.removeById(dno);
+
+            if(bSuccess == true) {
+//                성공
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
