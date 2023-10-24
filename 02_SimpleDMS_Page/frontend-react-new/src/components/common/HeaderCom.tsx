@@ -99,7 +99,7 @@ function HeaderCom() {
                       </li>
                       <li className="sidebar-nav-item col-3">
                         <a href="/add-qna" className="nav-link active ms-2">
-                          AddQna(다양한검색)
+                          Add Qna(다양한검색)
                         </a>
                       </li>
                       {/* <!-- 줄바꿈 : w-100 --> */}
@@ -117,7 +117,7 @@ function HeaderCom() {
                           href="/add-customer"
                           className="nav-link active ms-2"
                         >
-                          Customer(연습)
+                          Add Customer(연습)
                         </a>
                       </li>
                       {/* <!-- 줄바꿈 : w-100 --> */}

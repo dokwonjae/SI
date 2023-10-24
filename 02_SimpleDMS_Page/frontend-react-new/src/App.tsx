@@ -16,6 +16,12 @@ import AddEmp from "./pages/basic/emp/AddEmp";
 import Dept from "./pages/basic/dept/Dept";
 import Emp from "./pages/basic/emp/Emp";
 import QnaList from "./pages/basic/qna/QnaList";
+import CustomerList from "./pages/basic/customer/CustomerList";
+import AddQna from "./pages/basic/qna/AddQna";
+import AddCustomer from "./pages/basic/customer/AddCustomer";
+import Qna from "./pages/basic/qna/Qna";
+import Customer from "./pages/basic/customer/Customer";
+import FaqList from "./pages/normal/faq/FaqList";
 
 function App() {
   return (
@@ -49,6 +55,18 @@ function App() {
 
           {/* qna */}
           <Route path="/qna" element={<QnaList />} />
+          <Route path="/add-qna" element={<AddQna />} />
+          <Route path="/qna/:qno" element={<Qna />} />
+
+          {/* customer */}
+          <Route path="/customer" element={<CustomerList />} />
+          <Route path="/add-customer" element={<AddCustomer />} />
+          <Route path="/customer/:cid" element={<Customer />} />
+
+          {/* faq */}
+          <Route path="/faq" element={<FaqList />} />
+
+
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />

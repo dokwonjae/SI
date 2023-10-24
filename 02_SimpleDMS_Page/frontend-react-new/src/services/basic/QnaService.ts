@@ -1,5 +1,4 @@
 // QnaService.ts : axios 공통함수 (벡엔드 CRUD 연동 함수)
-
 import IQna from "../../types/basic/IQna";
 import http from "../../utils/http-common";
 
@@ -11,32 +10,32 @@ import http from "../../utils/http-common";
 const getAll = (searchSelect:string, searchKeyword:string, page:number, size:number) => {
     return http.get<Array<IQna>>(`/basic/qna?searchSelect=${searchSelect}&searchKeyword=${searchKeyword}&page=${page}&size=${size}`);
   };
-
   
   // 상세 조회
   const get = (qno:any) => {
     return http.get<IQna>(`/basic/qna/${qno}`);
   };
+  
   // 저장함수
   const create = (data:IQna) => {
     return http.post<IQna>("/basic/qna", data);
   };
-
-// 수정함수
-const update = (qno:any, data:IQna) => {
-  return http.put<any>(`/basic/qna/${qno}`, data);
-};
+  // 수정함수
+  const update = (qno:any, data:IQna) => {
+    return http.put<any>(`/basic/qna/${qno}`, data);
+  };
   // 삭제함수
   const remove = (qno:any) => {
     return http.delete<any>(`/basic/qna/deletion/${qno}`);
   };
-
-const DeptService = {
-  getAll,
-  get,
-  create,
-  update,
-  remove,
-};
-
-export default DeptService;
+  
+  const QnaService = {
+    getAll,
+    get,
+    create,
+    update,
+    remove,
+  };
+  
+  export default QnaService;
+  

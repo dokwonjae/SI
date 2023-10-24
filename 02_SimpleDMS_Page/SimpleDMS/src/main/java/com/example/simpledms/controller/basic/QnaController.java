@@ -1,7 +1,9 @@
 package com.example.simpledms.controller.basic;
 
-import com.example.simpledms.model.entity.basic.Dept;
-import com.example.simpledms.service.basic.DeptService;
+import com.example.simpledms.model.entity.basic.Qna;
+import com.example.simpledms.model.entity.basic.Qna;
+import com.example.simpledms.model.entity.basic.Qna;
+import com.example.simpledms.service.basic.QnaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,50 +19,54 @@ import java.util.Optional;
 
 /**
  * packageName : com.example.simpledms.controller.basic
- * fileName : DeptController
+ * fileName : QnaController
  * author : GGG
- * date : 2023-10-23
- * description : 부서 컨트롤러
+ * date : 2023-10-24
+ * description :  Qna 컨트롤러
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * —————————————————————————————
- * 2023-10-23         GGG          최초 생성
+ * 2023-10-24         GGG          최초 생성
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/basic")
-public class DeptController {
+public class QnaController {
 
     @Autowired
-    DeptService deptService; // DI
+    QnaService qnaService; // DI
 
-    //    전체 조회 + dname like 검색
-    @GetMapping("/dept")
-    public ResponseEntity<Object> findAllByDnameContaining(
-            @RequestParam(defaultValue = "") String dname,
+    //    전체 조회 + question/questioner like 검색
+    @GetMapping("/qna")
+    public ResponseEntity<Object> findAllByContaining(
+            @RequestParam(defaultValue = "question") String searchSelect,
+            @RequestParam(defaultValue = "") String searchKeyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ){
         try {
-//            페이지 변수 저장 (page:현재페이지번호, size:1페이지당개수)
-//            함수 매개변수 : Pageable (위의 값을 넣기)
-//        사용법 : Pageable pageable = PageRequest.of(현재페이지번호, 1페이지당개수);
             Pageable pageable = PageRequest.of(page, size);
 
-//          전체조회(dname="") + like 검색(dname="S")
-            Page<Dept> deptPage
-                    = deptService.findAllByDnameContaining(dname, pageable);
+            Page<Qna> qnaPage; // qna 페이지 정의
 
-//          리액트 전송 : 부서배열 , 페이징정보 [자료구조 : Map<키이름, 값>]
+            if(searchSelect.equals("question")) {
+                //            question like 검색
+                qnaPage = qnaService.findAllByQuestionContaining(searchKeyword, pageable);
+            } else {
+                //            questioner like 검색
+                qnaPage = qnaService.findAllByQuestionerContaining(searchKeyword, pageable);
+            }
+
+//          리액트 전송 : qna배열 , 페이징정보 [자료구조 : Map<키이름, 값>]
             Map<String , Object> response = new HashMap<>();
-            response.put("dept", deptPage.getContent()); // 부서배열
-            response.put("currentPage", deptPage.getNumber()); // 현재페이지번호
-            response.put("totalItems", deptPage.getTotalElements()); // 총건수(개수)
-            response.put("totalPages", deptPage.getTotalPages()); // 총페이지수
+            response.put("qna", qnaPage.getContent()); // qna배열
+            response.put("currentPage", qnaPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", qnaPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", qnaPage.getTotalPages()); // 총페이지수
 
-            if (deptPage.isEmpty() == false) {
+            if (qnaPage.isEmpty() == false) {
 //                성공
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
@@ -74,13 +80,13 @@ public class DeptController {
     }
 
     //    저장 함수
-    @PostMapping("/dept")
-    public ResponseEntity<Object> create(@RequestBody Dept dept) {
+    @PostMapping("/qna")
+    public ResponseEntity<Object> create(@RequestBody Qna qna) {
 
         try {
-            Dept dept2 = deptService.save(dept); // db 저장
+            Qna qna2 = qnaService.save(qna); // db 저장
 
-            return new ResponseEntity<>(dept2, HttpStatus.OK);
+            return new ResponseEntity<>(qna2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,15 +94,15 @@ public class DeptController {
     }
 
     //    수정 함수
-    @PutMapping("/dept/{dno}")
+    @PutMapping("/qna/{qno}")
     public ResponseEntity<Object> update(
-            @PathVariable int dno,
-            @RequestBody Dept dept) {
+            @PathVariable int qno,
+            @RequestBody Qna qna) {
 
         try {
-            Dept dept2 = deptService.save(dept); // db 수정
+            Qna qna2 = qnaService.save(qna); // db 수정
 
-            return new ResponseEntity<>(dept2, HttpStatus.OK);
+            return new ResponseEntity<>(qna2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -104,16 +110,16 @@ public class DeptController {
     }
 
     // 상세조회
-    @GetMapping("/dept/{dno}")
-    public ResponseEntity<Object> findById(@PathVariable int dno) {
+    @GetMapping("/qna/{qno}")
+    public ResponseEntity<Object> findById(@PathVariable int qno) {
 
         try {
 //            상세조회 실행
-            Optional<Dept> optionalDept = deptService.findById(dno);
+            Optional<Qna> optionalQna = qnaService.findById(qno);
 
-            if (optionalDept.isPresent()) {
+            if (optionalQna.isPresent()) {
 //                성공
-                return new ResponseEntity<>(optionalDept.get(), HttpStatus.OK);
+                return new ResponseEntity<>(optionalQna.get(), HttpStatus.OK);
             } else {
 //                데이터 없음
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -125,13 +131,13 @@ public class DeptController {
     }
 
     // 삭제함수
-    @DeleteMapping("/dept/deletion/{dno}")
-    public ResponseEntity<Object> delete(@PathVariable int dno) {
+    @DeleteMapping("/qna/deletion/{qno}")
+    public ResponseEntity<Object> delete(@PathVariable int qno) {
 
 //        프론트엔드 쪽으로 상태정보를 보내줌
         try {
 //            삭제함수 호출
-            boolean bSuccess = deptService.removeById(dno);
+            boolean bSuccess = qnaService.removeById(qno);
 
             if (bSuccess == true) {
 //                delete 문이 성공했을 경우

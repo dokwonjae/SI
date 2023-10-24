@@ -1,4 +1,4 @@
-package com.example.simpledms.model.entity.basic;
+package com.example.simpledms.model.entity.normal;
 
 import com.example.simpledms.model.common.BaseTimeEntity;
 import lombok.*;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 /**
  * packageName : com.example.modelexam.model
- * fileName : Dept
+ * fileName : Faq
  * author : kangtaegyung
  * date : 2022/10/12
  * description : 부서 모델 클래스
@@ -24,10 +24,10 @@ import javax.persistence.*;
  * 2022/10/12         kangtaegyung          최초 생성
  */
 @Entity
-@Table(name="TB_DEPT")
+@Table(name="TB_FAQ")
 @SequenceGenerator(
-        name = "SQ_DEPT_GENERATOR"
-        , sequenceName = "SQ_DEPT"
+        name = "SQ_FAQ_GENERATOR"
+        , sequenceName = "SQ_FAQ"
         , initialValue = 1
         , allocationSize = 1
 )
@@ -41,21 +41,21 @@ import javax.persistence.*;
 @DynamicUpdate
 // soft delete
 @Where(clause = "DELETE_YN = 'N'")
-@SQLDelete(sql = "UPDATE TB_DEPT SET DELETE_YN = 'Y', DELETE_TIME=TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE DNO = ?")
-public class Dept extends BaseTimeEntity {
+@SQLDelete(sql = "UPDATE TB_FAQ SET DELETE_YN = 'Y', DELETE_TIME=TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE NO = ?")
+public class Faq extends BaseTimeEntity {
     //    부서넘버
 //    @Id : Primary Key 에 해당
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE
-            , generator = "SQ_DEPT_GENERATOR"
+            , generator = "SQ_FAQ_GENERATOR"
     )
-    private Integer dno;
+    private Integer no; // 기본키, 시퀀스
 
-    //    부서이름
-    private String dname;
+    //    제목
+    private String title;
 
-    //    부서위치
-    private String loc;
+    //    내용
+    private String content;
 }
 
 
