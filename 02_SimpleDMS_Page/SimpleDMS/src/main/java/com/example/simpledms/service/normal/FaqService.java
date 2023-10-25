@@ -34,4 +34,12 @@ public class FaqService {
 
         return page;
     }
+
+    //    저장함수(수정함수)
+    public Faq save(Faq faq) {
+
+        Faq faq2 = faqRepository.save(faq);
+
+        return faq2;
+    }
 }

@@ -11,22 +11,22 @@ import javax.persistence.*;
 
 /**
  * packageName : com.example.simpledms.model.entity.normal
- * fileName : Faq
+ * fileName : CinemaFaq
  * author : GGG
- * date : 2023-10-24
- * description : Faq 엔티티
+ * date : 2023-10-25
+ * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * —————————————————————————————
- * 2023-10-24         GGG          최초 생성
+ * 2023-10-25         GGG          최초 생성
  */
 @Entity
-@Table(name = "TB_FAQ")
+@Table(name = "TB_CINEMA_FAQ")
 @SequenceGenerator(
-        name = "SQ_FAQ_GENERATOR"
-        , sequenceName = "SQ_FAQ"
+        name = "SQ_CINEMA_FAQ_GENERATOR"
+        , sequenceName = "SQ_CINEMA_FAQ"
         , initialValue = 1
         , allocationSize = 1
 )
@@ -40,15 +40,18 @@ import javax.persistence.*;
 @DynamicUpdate
 // soft delete
 @Where(clause = "DELETE_YN = 'N'")
-@SQLDelete(sql = "UPDATE TB_FAQ SET DELETE_YN = 'Y', DELETE_TIME=TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE NO = ?")
-public class Faq extends BaseTimeEntity {
+@SQLDelete(sql = "UPDATE TB_CINEMA_FAQ SET DELETE_YN = 'Y', DELETE_TIME=TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') WHERE CFNO = ?")
+public class CinemaFaq extends BaseTimeEntity {
+    //    속성
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE
-            , generator = "SQ_FAQ_GENERATOR"
+            , generator = "SQ_CINEMA_FAQ_GENERATOR"
     )
-    private Integer no; // 기본키, 시퀀스
+    private Integer cfno; // 기본키, 시퀀스
 
-    private String title;
+    private String question;
 
-    private String content;
+    private String answer;
+
+    private Integer sortOrder;
 }

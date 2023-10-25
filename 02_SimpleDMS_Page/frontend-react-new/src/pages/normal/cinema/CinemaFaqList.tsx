@@ -1,17 +1,19 @@
-// FaqList.tsx : rfce
-import React, { useEffect, useState } from "react";
+// CinemaFaqList.tsx : rfce
+import React from "react";
 import TitleCom from "../../../components/common/TitleCom";
 import { Pagination } from "@mui/material";
-import IFaq from "../../../types/normal/IFaq";
-import FaqService from "../../../services/normal/FaqService";
 import { Link } from "react-router-dom";
+import { useState } from 'react';
+import ICinemaFaq from "../../../types/normal/ICinemaFaq";
+import { useEffect } from 'react';
+import CinemaFaqService from "../../../services/normal/CinemaFaqService";
 
-function FaqList() {
-  // todo: 변수 정의
-  // faq 배열 변수
-  const [faq, setFaq] = useState<Array<IFaq>>([]);
+function CinemaFaqList() {
+  // 변수 정의
+  // cinemaFaq 배열 변수
+  const [cinemaFaq, setCinemaFaq] = useState<Array<ICinemaFaq>>([]);
   // 검색어 변수
-  const [searchTitle, setSearchTitle] = useState<string>("");
+  const [searchQuestion, setSearchQuestion] = useState<string>("");
 
   // todo: 공통 변수 : page(현재페이지번호), count(총페이지건수), pageSize(3,6,9 배열)
   const [page, setPage] = useState<number>(1);
@@ -22,15 +24,15 @@ function FaqList() {
 
   // todo: 함수 정의
   useEffect(() => {
-    retrieveFaq(); // 전체 조회
+    retrieveCinemaFaq(); // 전체 조회
   }, [page, pageSize]);
 
   //   전체조회 함수
-  const retrieveFaq = () => {
-    FaqService.getAll(searchTitle, page -1, pageSize) // 벡엔드 전체조회요청
+  const retrieveCinemaFaq = () => {
+    CinemaFaqService.getAll(searchQuestion, page -1, pageSize) // 벡엔드 전체조회요청
     .then((response: any)=>{
-      const { faq, totalPages } = response.data;
-      setFaq(faq);
+      const { cinemaFaq, totalPages } = response.data;
+      setCinemaFaq(cinemaFaq);
       setCount(totalPages);
       console.log("response", response.data);
 
@@ -42,8 +44,8 @@ function FaqList() {
   };
 
   //  검색어 수동 바인딩 함수
-  const onChangeSearchTitle = (e: any) => {
-    setSearchTitle(e.target.value);
+  const onChangeSearchQuestion = (e: any) => {
+    setSearchQuestion(e.target.value);
   };
 
   // todo: handlePageSizeChange(공통) : pageSize 값 변경시 실행되는 함수
@@ -64,7 +66,7 @@ function FaqList() {
     // 여기
     <div>
       {/* 제목 start */}
-      <TitleCom title="Faq List" />
+      <TitleCom title="Cinema Faq List" />
       {/* 제목 end */}
 
       {/* search start */}
@@ -73,15 +75,15 @@ function FaqList() {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by title"
-            value={searchTitle}
-            onChange={onChangeSearchTitle}
+            placeholder="Search by question"
+            value={searchQuestion}
+            onChange={onChangeSearchQuestion}
           />
           <div className="input-group-append">
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={retrieveFaq}
+              onClick={retrieveCinemaFaq}
             >
               Search
             </button>
@@ -118,32 +120,26 @@ function FaqList() {
       <div className="col-md-12">
         <div className="accordion" id="accordionExample">
           {/* 반복문 사용법 : faq.map((data, index) => (아코디언 태그)) */}
-          {faq &&
-            faq.map((data, index) => (
+          {cinemaFaq &&
+            cinemaFaq.map((data, index) => (
               // 여기
-              <div className="accordion-item" key={data.no}>
-                {/* 사용법 : 변수명 유일 : 1) h2(제목) : id="heading0" */}
-                {/*                       div(본문) : aria-labelledby="heading0" */}
-                {/*                  2) h2(제목)  : data-bs-target="#collapse0" */}
-                {/*                     div(본문) : id="collapse0" */}
-                {/* 사용법 2: (h2(제목))화면 보이기/안보이기 css(class) */}
-                {/*              펼치기 : className="accordion-button" */}
-                {/*              접기   : className="accordion-button collapsed" */}
-                {/*           (div(본문)) */}
-                {/*              펼치기 :  className="accordion-collapse collapse show" */}
-                {/*              접기   :  className="accordion-collapse collapse" */}
+              <div className="accordion-item" key={data.cfno}>
                 {/* 제목 시작 */}
                 <h2 className="accordion-header" id={"heading" + index}>
                   <button
-                    className={index==0?"accordion-button" : "accordion-button collapsed"}
+                    className={
+                      index == 0
+                        ? "accordion-button"
+                        : "accordion-button collapsed"
+                    }
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={"#collapse" + index}
-                    aria-expanded={index==0?"true" : "false"}
+                    aria-expanded={index == 0 ? "true" : "false"}
                     aria-controls={"collapse" + index}
                   >
                     {/* 벡엔드 데이터 */}
-                    {data.title}
+                    {data.question}
                   </button>
                 </h2>
                 {/* 제목(data.title) 끝 */}
@@ -151,14 +147,18 @@ function FaqList() {
                 {/* 본문(data.content) 시작 */}
                 <div
                   id={"collapse" + index}
-                  className={index==0?"accordion-collapse collapse show": "accordion-collapse collapse"}
+                  className={
+                    index == 0
+                      ? "accordion-collapse collapse show"
+                      : "accordion-collapse collapse"
+                  }
                   aria-labelledby={"heading" + index}
                   data-bs-parent="#accordionExample"
                 >
                   <div className="accordion-body">
                     {/* 벡엔드 데이터 코딩 */}
-                    {data.content} &nbsp;
-                    <Link to={"/faq/" + data.no}>
+                    {data.answer} &nbsp;
+                    <Link to={"/cinema-faq/" + data.cfno}>
                       <span className="badge bg-success">Edit</span>
                     </Link>
                   </div>
@@ -173,4 +173,4 @@ function FaqList() {
   );
 }
 
-export default FaqList;
+export default CinemaFaqList;

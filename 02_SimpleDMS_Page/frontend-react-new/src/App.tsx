@@ -22,6 +22,9 @@ import AddCustomer from "./pages/basic/customer/AddCustomer";
 import Qna from "./pages/basic/qna/Qna";
 import Customer from "./pages/basic/customer/Customer";
 import FaqList from "./pages/normal/faq/FaqList";
+import CinemaFaqList from "./pages/normal/cinema/CinemaFaqList";
+import AddFaq from "./pages/normal/faq/AddFaq";
+import AddCinemaFaq from './pages/normal/cinema/AddCinemaFaq';
 
 function App() {
   return (
@@ -65,8 +68,11 @@ function App() {
 
           {/* faq */}
           <Route path="/faq" element={<FaqList />} />
+          <Route path="/add-faq" element={<AddFaq />} />
 
-
+          {/* cinema faq */}
+          <Route path="/cinema-faq" element={<CinemaFaqList />} />
+          <Route path="/add-cinema-faq" element={<AddCinemaFaq />} />
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />

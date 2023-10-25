@@ -1,8 +1,8 @@
 package com.example.simpledms.controller.normal;
 
-import com.example.simpledms.model.entity.basic.Dept;
+import com.example.simpledms.model.entity.normal.CinemaFaq;
 import com.example.simpledms.model.entity.normal.Faq;
-import com.example.simpledms.service.normal.FaqService;
+import com.example.simpledms.service.normal.CinemaFaqService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,46 +17,46 @@ import java.util.Map;
 
 /**
  * packageName : com.example.simpledms.controller.normal
- * fileName : FaqController
+ * fileName : CinemaFaqController
  * author : GGG
- * date : 2023-10-24
+ * date : 2023-10-25
  * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * —————————————————————————————
- * 2023-10-24         GGG          최초 생성
+ * 2023-10-25         GGG          최초 생성
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/normal")
-public class FaqController {
+public class CinemaFaqController {
 
     @Autowired
-    FaqService faqService; // DI
+    CinemaFaqService cinemaFaqService; // DI
 
-    //    전체 조회 + title like 검색
-    @GetMapping("/faq")
-    public ResponseEntity<Object> findAllByTitleContaining(
-            @RequestParam(defaultValue = "") String title,
+    //    전체 조회 + question like 검색 + 정렬
+    @GetMapping("/cinema-faq")
+    public ResponseEntity<Object> findAllByQuestionContaining(
+            @RequestParam(defaultValue = "") String question,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ){
         try {
             Pageable pageable = PageRequest.of(page, size);
 
-            Page<Faq> faqPage
-                    = faqService.findAllByTitleContaining(title, pageable);
+            Page<CinemaFaq> cinemaFaqPage
+                    = cinemaFaqService.findAllByQuestionContaining(question, pageable);
 
-//          리액트 전송 : faq배열 , 페이징정보 [자료구조 : Map<키이름, 값>]
+//          리액트 전송 : cinemaFaq배열 , 페이징정보 [자료구조 : Map<키이름, 값>]
             Map<String , Object> response = new HashMap<>();
-            response.put("faq", faqPage.getContent()); // faq배열
-            response.put("currentPage", faqPage.getNumber()); // 현재페이지번호
-            response.put("totalItems", faqPage.getTotalElements()); // 총건수(개수)
-            response.put("totalPages", faqPage.getTotalPages()); // 총페이지수
+            response.put("cinemaFaq", cinemaFaqPage.getContent()); // cinemaFaq배열
+            response.put("currentPage", cinemaFaqPage.getNumber()); // 현재페이지번호
+            response.put("totalItems", cinemaFaqPage.getTotalElements()); // 총건수(개수)
+            response.put("totalPages", cinemaFaqPage.getTotalPages()); // 총페이지수
 
-            if (faqPage.isEmpty() == false) {
+            if (cinemaFaqPage.isEmpty() == false) {
 //                성공
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
@@ -69,19 +69,19 @@ public class FaqController {
         }
     }
 
+
     //    저장 함수
-    @PostMapping("/faq")
-    public ResponseEntity<Object> create(@RequestBody Faq faq) {
+    @PostMapping("/cinema-faq")
+    public ResponseEntity<Object> create(@RequestBody CinemaFaq cinemaFaq) {
 
         try {
-            Faq faq2 = faqService.save(faq); // db 저장
+            CinemaFaq cinemaFaq2 = cinemaFaqService.save(cinemaFaq); // db 저장
 
-            return new ResponseEntity<>(faq2, HttpStatus.OK);
+            return new ResponseEntity<>(cinemaFaq2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }
