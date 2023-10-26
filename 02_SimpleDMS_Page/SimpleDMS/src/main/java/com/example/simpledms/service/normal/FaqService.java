@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * packageName : com.example.simpledms.service.normal
  * fileName : FaqService
@@ -41,5 +43,23 @@ public class FaqService {
         Faq faq2 = faqRepository.save(faq);
 
         return faq2;
+    }
+
+
+    //    상세조회(1건조회)
+    public Optional<Faq> findById(int no) {
+        Optional<Faq> optionalFaq
+                = faqRepository.findById(no);
+
+        return optionalFaq;
+    }
+
+    //    삭제함수
+    public boolean removeById(int no) {
+        if(faqRepository.existsById(no)) { // no 있는지 확인
+            faqRepository.deleteById(no);  // 삭제 진행
+            return true;
+        }
+        return false;
     }
 }

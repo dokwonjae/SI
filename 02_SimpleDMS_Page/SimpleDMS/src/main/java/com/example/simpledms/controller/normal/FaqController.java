@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * packageName : com.example.simpledms.controller.normal
@@ -83,5 +84,63 @@ public class FaqController {
         }
     }
 
+    //    수정 함수
+    @PutMapping("/faq/{no}")
+    public ResponseEntity<Object> update(
+            @PathVariable int no,
+            @RequestBody Faq faq) {
+
+        try {
+            Faq faq2 = faqService.save(faq); // db 저장(수정)
+
+            return new ResponseEntity<>(faq2, HttpStatus.OK);
+        } catch (Exception e) {
+//            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // 상세조회
+    @GetMapping("/faq/{no}")
+    public ResponseEntity<Object> findById(@PathVariable int no) {
+
+        try {
+//            상세조회 실행
+            Optional<Faq> optionalFaq = faqService.findById(no);
+
+            if (optionalFaq.isPresent()) {
+//                성공
+                return new ResponseEntity<>(optionalFaq.get(), HttpStatus.OK);
+            } else {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+//            서버 에러
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 삭제함수
+    @DeleteMapping("/faq/deletion/{no}")
+    public ResponseEntity<Object> delete(@PathVariable int no) {
+
+//        프론트엔드 쪽으로 상태정보를 보내줌
+        try {
+//            삭제함수 호출
+            boolean bSuccess = faqService.removeById(no);
+
+            if (bSuccess == true) {
+//                delete 문이 성공했을 경우
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+//            delete 실패했을 경우( 0건 삭제가 될경우 )
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+//            DB 에러가 날경우
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
