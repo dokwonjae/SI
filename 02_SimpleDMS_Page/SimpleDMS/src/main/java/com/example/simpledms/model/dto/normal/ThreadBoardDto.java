@@ -17,7 +17,7 @@ public interface ThreadBoardDto {
     //    속성 x => getter 함수
     public Integer getTid();
     public String getSubject();
-    public String getMain_Text();
+    public String getMainText();
     public String getWriter();
     public Integer getViews();
     public Integer getTGroup();

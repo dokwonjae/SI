@@ -66,11 +66,11 @@ function ThreadBoardList() {
   const initialThread = {
     tid: null,
     subject: "",
-    main_Text: "",
+    mainText: "",
     writer: "",
     views: 0,
-    tGroup: null,
-    tParent: 0,
+    tgroup: null,
+    tparent: 0,
   };
   // 답변 글 입력 객체
   const [thread, setThread] = useState(initialThread);
@@ -89,17 +89,17 @@ function ThreadBoardList() {
     // 임시 객체
     let data = {
         subject: thread.subject,
-        main_Text: thread.main_Text,
+        mainText: thread.mainText,
         writer: thread.writer,
         views: 0,
       // 그룹번호(부모글 == 자식글)
       // rule : 1) 부모글 최초생성 또는 답변글 없을때 0 저장
       //        2) 답변글 생성이면 부모글 게시판번호(tid) 저장
-      tGroup: thread.tid,
+      tgroup: thread.tid,
       // 부모글번호 :
       // rule : 1) 부모글 최초생성 또는 답변글 없을때 자신의 게시판번호(tid) 저장
       //        2) 답변글 생성이면 부모글번호(tid)
-      tParent: thread.tid,
+      tparent: thread.tid,
     };
 
     ThreadBoardService.create(data) // 벡엔드 답변글 저장 요청
@@ -117,7 +117,7 @@ function ThreadBoardList() {
   //  게시물 thread 버튼 클릭시 화면에 답변입력창 보이게 하는 함수
   const newThread = (data: any) => {
     // 매개변수 데이터(객체) 수정 : boardContent: "" 수정
-    setThread({ ...data, boardContent: "" });
+    setThread({ ...data, main_Text: "" });
     // 답변 입력창 화면보이기 : threadClicked = true
     setThreadClicked(true);
   };
@@ -202,12 +202,12 @@ function ThreadBoardList() {
                 <tr key={index}>
                   <td>{data.tid}</td>
                   <td>{data.subject}</td>
-                  <td>{data.main_Text}</td>
+                  <td>{data.mainText}</td>
                   <td>{data.writer}</td>
                   <td>{data.views}</td>
                   <td>
                     {/* 클릭 : 아래 답변 폼이 열림 */}
-                    {data.tParent == 0 && (
+                    {data.tparent == 0 && (
                       <Link to={"#"}>
                         {/* 리액트 : onClick={함수명} : 매개변수없으면 */}
                         {/* 리액트 : onClick={()=>함수명(매개변수)} : 매개변수있으면 */}
@@ -226,8 +226,8 @@ function ThreadBoardList() {
                       to={
                         "/thread-board/tid/" +
                         data.tid +
-                        "/boardParent/" +
-                        data.tParent
+                        "/tParent/" +
+                        data.tparent
                       }
                     >
                       <span className="badge bg-success">Edit</span>
@@ -290,7 +290,7 @@ function ThreadBoardList() {
                     className="form-control"
                     id="mainText"
                     required
-                    value={thread.main_Text}
+                    value={thread.mainText}
                     onChange={handleInputChange}
                     name="mainText"
                   />

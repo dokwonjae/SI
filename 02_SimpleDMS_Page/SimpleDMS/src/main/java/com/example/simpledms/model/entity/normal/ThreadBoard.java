@@ -57,7 +57,7 @@ public class ThreadBoard extends BaseTimeEntity {
 
     private Integer views;
 
-    private Integer tGroup; // 트리구조 최상위 부모 노드( 부모가 있을 경우 : 부모번호, 없을 경우 : 자신의 게시판번호 )(정렬)
+    private Integer tgroup; // 트리구조 최상위 부모 노드( 부모가 있을 경우 : 부모번호, 없을 경우 : 자신의 게시판번호 )(정렬)
 
-    private Integer tParent; // 자신의 부모 노드 ( 부모가 있을 경우 : 부모번호, 없을 경우 : 0 ) : 핵심
+    private Integer tparent; // 자신의 부모 노드 ( 부모가 있을 경우 : 부모번호, 없을 경우 : 0 ) : 핵심
 }
