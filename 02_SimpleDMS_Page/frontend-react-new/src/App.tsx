@@ -11,7 +11,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import NotFound from "./pages/common/NotFound";
 import DeptList from "./pages/basic/dept/DeptList";
 import EmpList from "./pages/basic/emp/EmpList";
-import AddDept from './pages/basic/dept/AddDept';
+import AddDept from "./pages/basic/dept/AddDept";
 import AddEmp from "./pages/basic/emp/AddEmp";
 import Dept from "./pages/basic/dept/Dept";
 import Emp from "./pages/basic/emp/Emp";
@@ -24,15 +24,19 @@ import Customer from "./pages/basic/customer/Customer";
 import FaqList from "./pages/normal/faq/FaqList";
 import CinemaFaqList from "./pages/normal/cinema/CinemaFaqList";
 import AddFaq from "./pages/normal/faq/AddFaq";
-import AddCinemaFaq from './pages/normal/cinema/AddCinemaFaq';
+import AddCinemaFaq from "./pages/normal/cinema/AddCinemaFaq";
 import Faq from "./pages/normal/faq/Faq";
 import CinemaFaq from "./pages/normal/cinema/CinemaFaq";
-import ReplyBoardList from './pages/normal/reply-board/ReplyBoardList';
+import ReplyBoardList from "./pages/normal/reply-board/ReplyBoardList";
 import ThreadBoardList from "./pages/normal/thread-board/ThreadBoardList";
 import AddReplyBoard from "./pages/normal/reply-board/AddReplyBoard";
 import AddThreadBoard from "./pages/normal/thread-board/AddThreadBoard";
 import ReplyBoard from "./pages/normal/reply-board/ReplyBoard";
 import ThreadBoard from "./pages/normal/thread-board/ThreadBoard";
+import CodeCategoryList from "./pages/admin/CodeCategoryList";
+import AddCodeCategory from "./pages/admin/AddCodeCategory";
+import CodeList from "./pages/admin/CodeList";
+import AddCode from "./pages/admin/AddCode";
 
 function App() {
   return (
@@ -89,17 +93,26 @@ function App() {
           <Route path="/add-reply-board" element={<AddReplyBoard />} />
           {/* 정리 : boardParent = 0 이면 부모글을 클릭 */}
           {/* 정리 : boardParent = 0 아니면 자식글을 클릭 */}
-          <Route path="/reply-board/bid/:bid/boardParent/:boardParent" element={<ReplyBoard />} />
-
+          <Route
+            path="/reply-board/bid/:bid/boardParent/:boardParent"
+            element={<ReplyBoard />}
+          />
 
           {/* thread-board */}
           <Route path="/thread-board" element={<ThreadBoardList />} />
           <Route path="/add-thread-board" element={<AddThreadBoard />} />
-          {/* 정리 : tparent = 0 이면 부모글을 클릭 */}
-          {/* 정리 : tparent = 0 아니면 자식글을 클릭 */}
-          <Route path="/thread-board/tid/:tid/tparent/:tparent" element={<ThreadBoard />} />
+          <Route
+            path="/thread-board/tid/:tid/tparent/:tparent"
+            element={<ThreadBoard />}
+          />
 
+          {/* codeCategory(대분류 공통코드(부모)) */}
+          <Route path="/code-category" element={<CodeCategoryList />} />
+          <Route path="/add-code-category" element={<AddCodeCategory />} />
 
+          {/* code(소분류 공통코드(자식)) */}
+          <Route path="/code" element={<CodeList />} />
+          <Route path="/add-code" element={<AddCode />} />
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />
