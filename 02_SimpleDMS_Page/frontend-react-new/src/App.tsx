@@ -37,6 +37,10 @@ import CodeCategoryList from "./pages/admin/CodeCategoryList";
 import AddCodeCategory from "./pages/admin/AddCodeCategory";
 import CodeList from "./pages/admin/CodeList";
 import AddCode from "./pages/admin/AddCode";
+import Code from "./pages/admin/Code";
+import SimpleProductList from "./pages/shop/simple-product/SimpleProductList";
+import ProductList from "./pages/shop/product/ProductList";
+import AddSimpleProduct from "./pages/shop/simple-product/AddSimpleProduct";
 
 function App() {
   return (
@@ -113,6 +117,16 @@ function App() {
           {/* code(소분류 공통코드(자식)) */}
           <Route path="/code" element={<CodeList />} />
           <Route path="/add-code" element={<AddCode />} />
+          <Route path="/code/:codeId" element={<Code />} />
+
+          {/* simple-product */}
+          <Route path="/simple-product" element={<SimpleProductList />} />
+          <Route path="/add-simple-product" element={<AddSimpleProduct />} />
+
+
+          {/* product(연습) */}
+          <Route path="/product" element={<ProductList />} />
+
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />

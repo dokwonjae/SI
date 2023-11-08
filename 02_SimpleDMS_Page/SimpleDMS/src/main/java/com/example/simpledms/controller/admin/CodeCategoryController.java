@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,6 +81,25 @@ public class CodeCategoryController {
             return new ResponseEntity<>(codeCategory2, HttpStatus.OK);
         } catch (Exception e) {
 //            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    전체 조회 : 페이징 없음
+    @GetMapping("/code-category/all")
+    public ResponseEntity<Object> findAllByNoPage() {
+        try {
+            List<CodeCategory> list = codeCategoryService.findAll();
+
+            if (list.isEmpty() == false) {
+//                성공
+                return new ResponseEntity<>(list, HttpStatus.OK);
+            } else {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            log.debug(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

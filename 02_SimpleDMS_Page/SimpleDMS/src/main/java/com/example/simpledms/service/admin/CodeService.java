@@ -27,31 +27,41 @@ import java.util.Optional;
  */
 @Service
 public class CodeService {
+
     @Autowired
     CodeRepository codeRepository; // DI
 
-
-    /** like 검색 */
+//    like 검색
+    /**
+     * like 검색
+     */
     public Page<CodeDto> selectByCodeNameContaining(String codeName, Pageable pageable) {
         Page<CodeDto> page
-                = codeRepository.selectByCodeNameContaining(codeName, pageable);
+                = codeRepository
+                .selectByCodeNameContaining(codeName, pageable);
         return page;
     }
 
-    /** 전체 검색 : 페이징 없음 */
-    public List<Code> findAll() {
-        List<Code> list = codeRepository.findAll(); // 전체조회함수
+    /**
+     * 전체 검색 : 페이징 없음 + 조인
+     */
+    public List<CodeDto> selectAllNoPage() {
+        List<CodeDto> list = codeRepository.selectAllNoPage(); // 전체조회함수
         return list;
     }
 
-    /** 상세 조회 */
+    /**
+     * 상세 조회
+     */
     public Optional<Code> findById(int codeId) {
         Optional<Code> optionalCode
                 = codeRepository.findById(codeId);
         return optionalCode;
     }
 
-    /** 저장 함수 */
+    /**
+     * 저장 함수
+     */
     public Code save(Code code) {
         Code code2 = codeRepository.save(code);
         return code2; // DB 실제 저장된 객체
