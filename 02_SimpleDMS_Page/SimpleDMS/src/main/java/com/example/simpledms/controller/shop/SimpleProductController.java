@@ -1,7 +1,6 @@
 package com.example.simpledms.controller.shop;
 
-
-
+import com.example.simpledms.model.entity.basic.Dept;
 import com.example.simpledms.model.entity.shop.SimpleProduct;
 import com.example.simpledms.service.shop.SimpleProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * packageName : com.example.simpledms.controller.shop
@@ -69,6 +69,7 @@ public class SimpleProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     //    저장 함수
     @PostMapping("/simple-product")
     public ResponseEntity<Object> create(@RequestBody SimpleProduct simpleProduct) {
@@ -82,5 +83,45 @@ public class SimpleProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //    수정 함수
+    @PutMapping("/simple-product/{spno}")
+    public ResponseEntity<Object> update(
+            @PathVariable int spno,
+            @RequestBody SimpleProduct simpleProduct) {
+
+        try {
+            SimpleProduct simpleProduct2
+                    = simpleProductService.save(simpleProduct); // db 수정
+
+            return new ResponseEntity<>(simpleProduct2, HttpStatus.OK);
+        } catch (Exception e) {
+//            DB 에러가 났을경우 : INTERNAL_SERVER_ERROR 프론트엔드로 전송
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 상세조회
+    @GetMapping("/simple-product/{spno}")
+    public ResponseEntity<Object> findById(@PathVariable int spno) {
+
+        try {
+//            상세조회 실행
+            Optional<SimpleProduct> optionalSimpleProduct
+                    = simpleProductService.findById(spno);
+
+            if (optionalSimpleProduct.isPresent()) {
+//                성공
+                return new ResponseEntity<>(optionalSimpleProduct.get(), HttpStatus.OK);
+            } else {
+//                데이터 없음
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+//            서버 에러
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

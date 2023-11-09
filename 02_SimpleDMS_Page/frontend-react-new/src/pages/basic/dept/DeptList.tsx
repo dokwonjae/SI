@@ -8,7 +8,7 @@ import IDept from "../../../types/basic/IDept";
 import DeptService from "../../../services/basic/DeptService";
 
 function DeptList() {
-  // 변수 정의
+  // todo: 변수 정의
   // 부서 배열 변수
   const [dept, setDept] = useState<Array<IDept>>([]);
   // 검색어 변수
@@ -21,7 +21,7 @@ function DeptList() {
   // pageSizes : 배열 (셀렉트 박스 사용)
   const pageSizes = [3, 6, 9];
 
-  // 함수 정의
+  // todo: 함수 정의
   // TODO: 1) 컴포넌트가 mounted 될때 한번만 실행됨 : useEffect(() => {실행문},[])
   // TODO: 2) 컴포넌트의 변수값이 변할때 실행됨 : useEffect(() => {실행문},[감시변수])
   useEffect(() => {

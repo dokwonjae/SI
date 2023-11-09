@@ -5,7 +5,7 @@ import TitleCom from "../../../components/common/TitleCom";
 import DeptService from "../../../services/basic/DeptService";
 
 function Dept() {
-
+  // todo: 변수 정의
   // 전체조회 페이지에서 전송한 기본키(dno)
   const { dno } = useParams();
   // 강제페이지 이동 함수
@@ -23,9 +23,10 @@ function Dept() {
   // 화면에 수정 성공에 메세지 찍기 변수
   const [message, setMessage] = useState<string>("");
 
+  // todo: 함수 정의
   // 상세조회 함수
   const getDept = (dno: string) => {
-    DeptService.get(dno)         // 벡엔드로 상세조회 요청
+    DeptService.get(dno) // 벡엔드로 상세조회 요청
       .then((response: any) => {
         setDept(response.data);
         console.log(response.data);
