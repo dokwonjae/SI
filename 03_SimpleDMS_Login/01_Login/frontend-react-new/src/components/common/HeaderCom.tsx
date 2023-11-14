@@ -1,10 +1,30 @@
-﻿import React, { useEffect } from "react";
+﻿import React, { useCallback, useEffect } from "react";
 import initMain from "../../assets/js/scripts";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../store/store";
+import { logout } from "../../store/slices/auth";
 
 function HeaderCom() {
+  // todo: 변수 정의
+  // todo: 공유저장소 변수 가져오기 : useSelector((state:RootState)=>state.변수명);
+  // todo: auth = { isLoggedIn:true/false, user:user/null }
+  const { user: currentUser } = useSelector((state: RootState) => state.auth);
+
+  // todo: 공유저장소 함수 가져오기 : logout()
+  const dispatch = useAppDispatch();
+
+  // todo: 함수 정의
+
+  // todo: 공유저장소 함수 사용하기 : 로그아웃 정의
+  // todo: 사용법 : dispatch(공유함수명());
+  // 리액트 성능개선을 위한 함수 : useCallback() : 캐싱됨
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
   useEffect(() => {
     initMain();
-  });
+  }, [currentUser, logOut]);
 
   return (
     <div>
@@ -324,18 +344,12 @@ function HeaderCom() {
                       </li>
                       {/* <!-- 1행 시작--> */}
                       <li className="sidebar-nav-item col-3">
-                        <a
-                          href="/fileDb"
-                          className="nav-link active ms-2"
-                        >
+                        <a href="/fileDb" className="nav-link active ms-2">
                           File Upload List
                         </a>
                       </li>
                       <li className="sidebar-nav-item col-3">
-                        <a
-                          href="/add-fileDb"
-                          className="nav-link active ms-2"
-                        >
+                        <a href="/add-fileDb" className="nav-link active ms-2">
                           Add File Upload(admin)
                         </a>
                       </li>
@@ -360,15 +374,10 @@ function HeaderCom() {
 
                       {/* <!-- 3행 시작--> */}
                       <li className="sidebar-nav-item col-3">
-                        <a href="#" className="nav-link active ms-2">
-                        </a>
+                        <a href="#" className="nav-link active ms-2"></a>
                       </li>
                       <li className="sidebar-nav-item col-3">
-                        <a
-                          href="#"
-                          className="nav-link active ms-2"
-                        >
-                        </a>
+                        <a href="#" className="nav-link active ms-2"></a>
                       </li>
                       {/* <!-- 줄바꿈 : w-100 --> */}
                       <li className="sidebar-nav-item w-100"></li>
@@ -376,12 +385,10 @@ function HeaderCom() {
 
                       {/* <!-- 4행 시작--> */}
                       <li className="sidebar-nav-item col-3">
-                        <a href="#" className="nav-link active ms-2">
-                        </a>
+                        <a href="#" className="nav-link active ms-2"></a>
                       </li>
                       <li className="sidebar-nav-item col-3">
-                        <a href="#" className="nav-link active ms-2">
-                        </a>
+                        <a href="#" className="nav-link active ms-2"></a>
                       </li>
                       {/* <!-- 줄바꿈 : w-100 --> */}
                       <li className="sidebar-nav-item w-100"></li>
@@ -470,17 +477,32 @@ function HeaderCom() {
                 {/* 어드민 끝 */}
 
                 {/* 로그인 시작 */}
-                <li className="nav-item">
-                  <a className="nav-link active" href="/register">
-                    회원가입
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="/login">
-                    로그인
-                  </a>
-                </li>
+                {!currentUser && (
+                  // 여기
+                  <>
+                    <li className="nav-item">
+                      <a className="nav-link active" href="/register">
+                        회원가입
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link active" href="/login">
+                        로그인
+                      </a>
+                    </li>
+                  </>
+                )}
                 {/* 로그인 끝 */}
+
+                {/* 로그아웃 시작 */}
+                {currentUser && (
+                  <li className="nav-item">
+                    <a className="nav-link active" href="#" onClick={logOut}>
+                      로그아웃
+                    </a>
+                  </li>
+                )}
+                {/* 로그아웃 끝 */}
               </ul>
             </div>
           </div>

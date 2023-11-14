@@ -69,6 +69,8 @@ function App() {
         <Routes>
           {/* login */}
           <Route path="/" element={<Home />} />
+          {/* 별칭 라우터 */}
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -152,13 +154,11 @@ function App() {
 
           {/* 부산 테마길( busan thema load ) */}
           <Route path="/thema-load" element={<ThemaLoadList />} />
-          
+
           {/* 파일 업로드 */}
           <Route path="/fileDb" element={<FileDbList />} />
           <Route path="/add-fileDb" element={<AddFileDb />} />
           <Route path="/fileDb/:uuid" element={<FileDb />} />
-
-
 
           {/* NotFound */}
           <Route path="*" element={<NotFound />} />

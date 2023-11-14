@@ -4,14 +4,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+// todo: 공유 저장소 임포트
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  // Provider : 공유저장소 추가
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
