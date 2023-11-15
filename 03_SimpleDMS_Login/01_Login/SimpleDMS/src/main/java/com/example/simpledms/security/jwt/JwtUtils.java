@@ -14,6 +14,7 @@ import java.util.Date;
 public class JwtUtils {
 //  private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
+//  todo: application.properties 파일의 속성값 가져오기 : @Value("${속성명}")
   @Value("${simpleDms.app.jwtSecret}")
   private String jwtSecret;
 

@@ -9,7 +9,7 @@ import lombok.*;
  * author : kangtaegyung
  * date : 2023/07/29
  * description : UserRes
- * 요약 : 클라이언트로 서버 결과를 전송할 클래스(웹토큰 과 인증정보가 있음)
+ * 요약 : 리액트로 전송될 결과 클래스(웹토큰 과 인증정보가 있음 : 로컬스토리지에 user 키로 저장됨)
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
@@ -38,5 +38,7 @@ public class UserRes {
     this.email = email;
     this.username = username;
     this.codeName = codeName;
+
   }
+
 }

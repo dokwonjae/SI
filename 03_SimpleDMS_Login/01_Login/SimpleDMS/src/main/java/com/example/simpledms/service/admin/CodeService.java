@@ -32,6 +32,7 @@ public class CodeService {
     CodeRepository codeRepository; // DI
 
 //    like 검색
+
     /**
      * like 검색
      */
@@ -65,5 +66,12 @@ public class CodeService {
     public Code save(Code code) {
         Code code2 = codeRepository.save(code);
         return code2; // DB 실제 저장된 객체
+    }
+
+    //    todo: 회원생성 사용 , 권한이 있는지 확인하는 함수
+    public boolean existsByCodeName(String codeName) {
+        boolean bResult = codeRepository.existsByCodeName(codeName);
+
+        return bResult;
     }
 }
